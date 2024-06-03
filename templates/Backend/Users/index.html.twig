@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des comptes utilisateurs
+{% endblock %}
+
+{% block body %}
+	<section>
+		<h1>Gestion des comptes utilisateurs</h1>
+		<a href="{{path('admin.users.create')}}">Créer un compte</a>
+		<div>
+			{% for user in users %}
+				<h2>{{user.first_name}}{{user.name}}</h2>
+
+			{% endfor %}
+		</div>
+	</section>
+{% endblock %}
