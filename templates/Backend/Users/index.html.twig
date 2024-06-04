@@ -22,7 +22,7 @@
 				</thead>
 				<tbody>
 					{% for user in users %}
-						<tr scope="row">
+						<tr scope='row'>
 							<td scope='col'>{{user.id}}</td>
 							<td scope='col'>{{user.name}}</td>
 							<td scope='col'>{{user.firstName}}</td>
@@ -30,7 +30,19 @@
 							<td scope='col'>
 								{% for role in user.roles %}
 									{{role == 'ROLE_ADMIN'? 'Admin' : 'Formateur'}}
+
 								{% endfor %}
+							</td>
+							<td scope='col'>
+
+								<a href="{{ path('admin.users.edit', {id: user.id}) }}">Modifier</a>
+							</td>
+							<td scope='col'>
+								<form action="{{ path('admin.users.delete', {id: user.id}) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce compte')">
+									<input type="hidden" name="token" value="{{ csrf_token('delete'~ user.id) }}">
+									<button type="submit">Supprimer</button>
+								</form>
+
 							</td>
 
 						{% endfor %}

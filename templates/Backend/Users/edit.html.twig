@@ -1,17 +1,16 @@
-{% extends '@EasyAdmin/layout.html.twig' %}
+{% extends '@EasyAdmin/layout.html.twig'  %}
 
-{% block title%}
-	Création d'un compte
+{% block title %}Gestion du compte utilisateur
 	{{parent()}}
 {% endblock %}
 
 {% block body %}
 	<section>
-		<h1>Création d'un compte utilisateur</h1>
+		<h1>Gestion du compte utilisateur</h1>
 		<a href="{{path('admin.users.index')}}">Retour à l'index</a>
 		{{form_start(form)}}
 		{{form_widget(form)}}
-		<button>Créer le compte</button>
+		<button>Enregistrer les modifications</button>
 		{{form_end(form)}}
 	</section>
 {% endblock %}
