@@ -43,17 +43,17 @@ class UserController extends AbstractDashboardController
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('success', 'L\'utilisateur a bien été ajouté');
-            return $this->redirectToRoute('.index');
+
+            return $this->redirectToRoute('admin.users.index');
         }
-        return $this->render('Backend/Users/index.html.twig', ['form' => $form]);
+        return $this->render('Backend/Users/create.html.twig', ['form' => $form]);
     }
 
     #[Route('/{id}/edit', '.edit', methods: ['GET', 'POST'])]
     public function edit(?Users $user, Request $request): Response|RedirectResponse
     {
         if (!$user) {
-            $this->addFlash('error', 'Utilisateur non trouvé');
+
             return $this->redirectToRoute('admin.users.index');
         }
 
@@ -64,7 +64,7 @@ class UserController extends AbstractDashboardController
             $this->em->persist($user);
             $this->em->flush();
 
-            $this->addFlash('success', 'Utilisateur modifié avec succès');
+
             return $this->redirectToRoute('admin.users.index');
         }
 
@@ -75,15 +75,12 @@ class UserController extends AbstractDashboardController
     public function delete(?Users $user, Request $request): RedirectResponse
     {
         if (!$user) {
-            $this->addFlash('error', 'Utilisateur non trouvé');
+
             return $this->redirectToRoute('admin.users.index');
         }
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('token'))) {
             $this->em->remove($user);
             $this->em->flush();
-            $this->addFlash('success', 'Utilisateur supprimé avec succès');
-        } else {
-            $this->addFlash('error', 'token CSRF invalide');
         }
         return $this->redirectToRoute('admin.users.index');
     }

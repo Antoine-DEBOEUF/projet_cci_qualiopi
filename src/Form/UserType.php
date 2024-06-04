@@ -31,7 +31,15 @@ class UserType extends AbstractType
                 'firstName',
                 TextType::class,
                 [
-                    'label' => 'Prénom :',
+                    'label' => 'Prénom(s) :',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'email',
+                EmailType::class,
+                [
+                    'label' => 'Email :',
                     'required' => false,
                 ]
             )
@@ -48,7 +56,7 @@ class UserType extends AbstractType
 
                     'first_options' => ['label' => 'Mot de passe :', 'constraints' => [
                         new Assert\NotBlank(),
-                        new Assert\Length(['max' => 4096, 'min' => 12]),
+                        new Assert\Length(['max' => 4096, 'min' => 8]),
                         new Assert\Regex(pattern: '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/',)
                     ]],
 
@@ -60,38 +68,29 @@ class UserType extends AbstractType
                 'description',
                 TextType::class,
                 [
-                    'label' => 'Description de l\'utilisateur (facultatif) :',
+                    'label' => 'Description (facultatif) :',
                     'required' => false,
                 ]
             )
 
+
+
             ->add(
-                'email',
-                EmailType::class,
+                'roles',
+                ChoiceType::class,
                 [
-                    'label' => 'Email :',
+                    'label' => 'Role :',
                     'required' => false,
+                    'placeholder' => 'Sélectionner un rôle',
+                    'choices' =>
+                    [
+                        'Formateur' => 'ROLE_USER',
+                        'Admin' => 'ROLE_ADMIN'
+                    ],
+                    'expanded' => true,
+                    'multiple' => true,
                 ]
             );
-
-        if ($options['isAdmin']) {
-            $builder
-                ->add(
-                    'roles',
-                    ChoiceType::class,
-                    [
-                        'label' => 'Role :',
-                        'placeholder' => 'Sélectionner un rôle',
-                        'choices' =>
-                        [
-                            'Formateur/Formatrice' => 'ROLE_USER',
-                            'Admin' => 'ROLE_ADMIN'
-                        ],
-                        'expanded' => true,
-                        'multiple' => true,
-                    ]
-                );
-        };
     }
 
     public function configureOptions(OptionsResolver $resolver): void

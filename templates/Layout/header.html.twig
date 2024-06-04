@@ -1,0 +1,19 @@
+<header>
+	<nav>
+		<ul>
+			{% if app.user is defined and app.user is not null}
+{% if is_granted('ROLE_ADMIN') %}
+				<div>Admin</div>
+			{% else %}
+				<div>Formateur</div>
+			{% endif %}
+			<li>
+				<a href="/logout">Déconnexion</a>
+			</li>
+		{% else %}
+			<li>
+				<a href="{{ path('app.login')}}">Se connecter</a>
+			</li>
+		{% endif %}
+	</ul>
+</nav></header>

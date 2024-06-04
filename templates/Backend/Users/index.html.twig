@@ -1,6 +1,7 @@
 {% extends '@EasyAdmin/layout.html.twig' %}
 
 {% block title %}Gestion des comptes utilisateurs
+	{{parent()}}
 {% endblock %}
 
 {% block body %}
@@ -23,8 +24,8 @@
 					{% for user in users %}
 						<tr scope="row">
 							<td scope='col'>{{user.id}}</td>
-							<td scope='col'>{{user.firstName}}</td>
 							<td scope='col'>{{user.name}}</td>
+							<td scope='col'>{{user.firstName}}</td>
 							<td scope='col'>{{user.email}}</td>
 							<td scope='col'>
 								{% for role in user.roles %}
