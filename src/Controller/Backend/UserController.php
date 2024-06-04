@@ -12,9 +12,10 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 #[Route('/admin/users', 'admin.users')]
-class UserController extends AbstractController
+class UserController extends AbstractDashboardController
 {
     public function __construct(
         private UsersRepository $userRepo,
@@ -25,7 +26,7 @@ class UserController extends AbstractController
     #[Route('', name: '.index', methods: ['GET'])]
     public function index(): Response
     {
-        return $this->render('Backend/User/index.html.twig', [
+        return $this->render('Backend/Users/index.html.twig', [
             'users' => $this->userRepo->findAll(),
         ]);
     }

@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends '@EasyAdmin/layout.html.twig' %}
 
 {% block title %}Gestion des comptes utilisateurs
 {% endblock %}
@@ -6,12 +6,37 @@
 {% block body %}
 	<section>
 		<h1>Gestion des comptes utilisateurs</h1>
-		<a href="{{path('admin.users.create')}}">Créer un compte</a>
-		<div>
-			{% for user in users %}
-				<h2>{{user.first_name}}{{user.name}}</h2>
+		<a href="{{path('admin.users.create')}}">Ajouter un compte utilisateur</a>
 
-			{% endfor %}
+		<div>
+			<table>
+				<thead>
+					<tr scope='row'>
+						<th scope='col'>Id</th>
+						<th scope='col'>Nom</th>
+						<th scope='col'>Prénom(s)</th>
+						<th scope='col'>Email</th>
+						<th scope='col'>Role</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for user in users %}
+						<tr scope="row">
+							<td scope='col'>{{user.id}}</td>
+							<td scope='col'>{{user.firstName}}</td>
+							<td scope='col'>{{user.name}}</td>
+							<td scope='col'>{{user.email}}</td>
+							<td scope='col'>
+								{% for role in user.roles %}
+									{{role == 'ROLE_ADMIN'? 'Admin' : 'Formateur'}}
+								{% endfor %}
+							</td>
+
+						{% endfor %}
+					</tbody>
+				</tbody>
+			</table>
 		</div>
+
 	</section>
 {% endblock %}
