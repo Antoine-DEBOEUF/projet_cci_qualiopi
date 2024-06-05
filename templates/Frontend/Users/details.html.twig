@@ -1,0 +1,33 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block title %}Votre profil
+	{{parent()}}
+{% endblock %}
+
+{% block body %}
+	<h1>Gérer votre profil</h1>
+
+	<section>
+		<h2>Vos informations</h2>
+		<p>{{user.name}}
+			{{user.firstName}}</p>
+		<p>{{user.email}}</p>
+		<p>
+			{% for role in user.roles %}
+				{{role == 'ROLE_ADMIN'? 'Admin' : ''}}
+
+			{% endfor %}
+		</p>
+		<a href="{{path('users.edit', {id: user.id})}}">Modifier vos informations</a>
+	</section>
+
+	<section>
+		<h2>Vos documents</h2>
+		<p>
+			{% for document in user.documents.id %}
+				{{document.formation}}
+				{{document.title}}
+			{% endfor %}
+		</p>
+	</section>
+{% endblock %}

@@ -1,55 +1,67 @@
-{% extends '@EasyAdmin/layout.html.twig' %}
+{% extends '@EasyAdmin/page/content.html.twig' %}
 
-{% block title %}Gestion des comptes utilisateurs
+{% block title %}Page d'administration
 	{{parent()}}
 {% endblock %}
 
 {% block body %}
 	<section>
-		<h1>Gestion des comptes utilisateurs</h1>
-		<a href="{{path('admin.users.create')}}">Ajouter un compte utilisateur</a>
+		<h1>Gestion des utilisateurs</h1>
 
-		<div>
-			<table>
-				<thead>
-					<tr scope='row'>
-						<th scope='col'>Id</th>
-						<th scope='col'>Nom</th>
-						<th scope='col'>Prénom(s)</th>
-						<th scope='col'>Email</th>
-						<th scope='col'>Role</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for user in users %}
+		{#
+				<article>
+						
+									
+				<a href="{{ path('admin.users.edit', {id: user.id}) }}">Gérer votre profil</a>
+									
+				</article>
+				#}
+		<article>
+			<h2>Gestion des comptes utilisateurs</h2>
+			<a href="{{path('admin.users.create')}}">Ajouter un compte utilisateur</a>
+
+			<div>
+				<table>
+					<thead>
 						<tr scope='row'>
-							<td scope='col'>{{user.id}}</td>
-							<td scope='col'>{{user.name}}</td>
-							<td scope='col'>{{user.firstName}}</td>
-							<td scope='col'>{{user.email}}</td>
-							<td scope='col'>
-								{% for role in user.roles %}
-									{{role == 'ROLE_ADMIN'? 'Admin' : 'Formateur'}}
+							<th scope='col'>Id</th>
+							<th scope='col'>Nom</th>
+							<th scope='col'>Prénom(s)</th>
+							<th scope='col'>Email</th>
+							<th scope='col'>Role</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for user in users %}
+							<tr scope='row'>
+								<td scope='col'>{{user.id}}</td>
+								<td scope='col'>{{user.name}}</td>
+								<td scope='col'>{{user.firstName}}</td>
+								<td scope='col'>{{user.email}}</td>
+								<td scope='col'>
+									{% for role in user.roles %}
+										{{role == 'ROLE_ADMIN'? 'Admin' : 'Formateur'}}
 
-								{% endfor %}
-							</td>
-							<td scope='col'>
+									{% endfor %}
+								</td>
+								<td scope='col'>
 
-								<a href="{{ path('admin.users.edit', {id: user.id}) }}">Modifier</a>
-							</td>
-							<td scope='col'>
-								<form action="{{ path('admin.users.delete', {id: user.id}) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce compte')">
-									<input type="hidden" name="token" value="{{ csrf_token('delete'~ user.id) }}">
-									<button type="submit">Supprimer</button>
-								</form>
+									<a href="{{ path('admin.users.edit', {id: user.id}) }}">Modifier</a>
+								</td>
+								<td scope='col'>
+									<form action="{{ path('admin.users.delete', {id: user.id}) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce compte')">
+										<input type="hidden" name="token" value="{{ csrf_token('delete'~ user.id) }}">
+										<button type="submit">Supprimer</button>
+									</form>
 
-							</td>
+								</td>
 
-						{% endfor %}
+							{% endfor %}
+						</tbody>
 					</tbody>
-				</tbody>
-			</table>
-		</div>
+				</table>
+			</div>
+		</article>
 
 	</section>
 {% endblock %}

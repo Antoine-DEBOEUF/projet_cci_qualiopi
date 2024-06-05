@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\DocumentsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DocumentsRepository::class)]
 class Documents
@@ -14,13 +15,15 @@ class Documents
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $title = null;
 
-    #[ORM\Column]
-    private ?bool $active = null;
-
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $formation = null;
+
+    #[ORM\ManyToOne(inversedBy: 'id_documents')]
+    private ?Users $users = null;
 
     public function getId(): ?int
     {
@@ -39,18 +42,6 @@ class Documents
         return $this;
     }
 
-    public function isActive(): ?bool
-    {
-        return $this->active;
-    }
-
-    public function setActive(bool $active): static
-    {
-        $this->active = $active;
-
-        return $this;
-    }
-
     public function getFormation(): ?string
     {
         return $this->formation;
@@ -59,6 +50,18 @@ class Documents
     public function setFormation(string $formation): static
     {
         $this->formation = $formation;
+
+        return $this;
+    }
+
+    public function getUsers(): ?Users
+    {
+        return $this->users;
+    }
+
+    public function setUsers(?Users $users): static
+    {
+        $this->users = $users;
 
         return $this;
     }

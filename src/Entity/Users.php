@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -47,6 +49,17 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Email]
     private ?string $email = null;
 
+    /**
+     * @var Collection<int, documents>
+     */
+    #[ORM\OneToMany(targetEntity: documents::class, mappedBy: 'users')]
+    private Collection $id_documents;
+
+    public function __construct()
+    {
+        $this->id_documents = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +87,11 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         $this->firstName = $firstName;
 
         return $this;
+    }
+
+    public function getFullName(): string
+    {
+        return "$this->firstName $this->name";
     }
 
     /**
@@ -155,5 +173,35 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
+    }
+
+    /**
+     * @return Collection<int, documents>
+     */
+    public function getIdDocuments(): Collection
+    {
+        return $this->id_documents;
+    }
+
+    public function addIdDocument(documents $idDocument): static
+    {
+        if (!$this->id_documents->contains($idDocument)) {
+            $this->id_documents->add($idDocument);
+            $idDocument->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdDocument(documents $idDocument): static
+    {
+        if ($this->id_documents->removeElement($idDocument)) {
+            // set the owning side to null (unless already changed)
+            if ($idDocument->getUsers() === $this) {
+                $idDocument->setUsers(null);
+            }
+        }
+
+        return $this;
     }
 }

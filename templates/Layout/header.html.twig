@@ -1,19 +1,21 @@
 <header>
 	<nav>
 		<ul>
-			{% if app.user is defined and app.user is not null}
-{% if is_granted('ROLE_ADMIN') %}
-				<div>Admin</div>
+			{% if app.user is defined and app.user is not null %}
+				{% if is_granted('ROLE_ADMIN') %}
+					<div>Admin</div>
+					<a href="{{ path('admin.users.index')}}">Gestion des utilisateurs</a>
+				{% else %}
+					<div>Formateur</div>
+				{% endif %}
+				<li>
+					<a href="/logout">Déconnexion</a>
+				</li>
 			{% else %}
-				<div>Formateur</div>
+				<li>
+					<a href="{{ path('app.login')}}">Se connecter</a>
+				</li>
 			{% endif %}
-			<li>
-				<a href="/logout">Déconnexion</a>
-			</li>
-		{% else %}
-			<li>
-				<a href="{{ path('app.login')}}">Se connecter</a>
-			</li>
-		{% endif %}
-	</ul>
-</nav></header>
+		</ul>
+	</nav>
+</header>
