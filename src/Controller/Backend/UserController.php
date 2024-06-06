@@ -68,7 +68,7 @@ class UserController extends AbstractDashboardController
             return $this->redirectToRoute('admin.users.index');
         }
 
-        return $this->render('Backend/Users/edit.html.twig', ['form' => $form]);
+        return $this->render('Backend/Users/edit.html.twig', ['form' => $form, 'users' => $user]);
     }
 
     #[Route('/{id}/delete', '.delete', methods: ['POST'])]

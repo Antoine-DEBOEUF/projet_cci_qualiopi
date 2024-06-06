@@ -9,25 +9,31 @@
 
 	<section>
 		<h2>Vos informations</h2>
-		<p>{{user.name}}
-			{{user.firstName}}</p>
-		<p>{{user.email}}</p>
+		<p>Nom :{{users.name}}
+			{{users.firstName}}</p>
+		<p>Email :{{users.email}}</p>
 		<p>
-			{% for role in user.roles %}
-				{{role == 'ROLE_ADMIN'? 'Admin' : ''}}
+			{% for role in users.roles %}
+				{{role == 'ROLE_ADMIN'? 'Admin' : 'Formateur'}}
 
 			{% endfor %}
 		</p>
-		<a href="{{path('users.edit', {id: user.id})}}">Modifier vos informations</a>
+		<a href="{{path('app.users.edit', {id: users.id})}}">Modifier vos informations</a>
 	</section>
 
 	<section>
 		<h2>Vos documents</h2>
 		<p>
-			{% for document in user.documents.id %}
-				{{document.formation}}
-				{{document.title}}
-			{% endfor %}
+			{% if users.documents| length > 0 %}
+				{% for document in users.documents %}
+					{{document.formation}}
+					{{document.title}}
+				{% endfor %}
+			{% else %}
+				<p>Vous n'avez pas de documents pour le moment</p>
+			{% endif %}
+
+
 		</p>
 	</section>
 {% endblock %}

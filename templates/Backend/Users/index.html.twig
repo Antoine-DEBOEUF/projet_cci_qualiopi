@@ -8,14 +8,14 @@
 	<section>
 		<h1>Gestion des utilisateurs</h1>
 
-		{#
-				<article>
-						
-									
-				<a href="{{ path('admin.users.edit', {id: user.id}) }}">Gérer votre profil</a>
-									
-				</article>
-				#}
+
+		<p>
+
+
+			<a href="{{ path('admin.users.edit', {id: app.user.id}) }}">Gérer votre profil</a>
+
+		</p>
+
 		<article>
 			<h2>Gestion des comptes utilisateurs</h2>
 			<a href="{{path('admin.users.create')}}">Ajouter un compte utilisateur</a>

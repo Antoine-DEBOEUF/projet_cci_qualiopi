@@ -22,8 +22,9 @@ class Documents
     #[Assert\NotBlank()]
     private ?string $formation = null;
 
-    #[ORM\ManyToOne(inversedBy: 'id_documents')]
-    private ?Users $users = null;
+    #[ORM\ManyToOne(inversedBy: 'documents')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Users $user = null;
 
     public function getId(): ?int
     {
@@ -54,14 +55,14 @@ class Documents
         return $this;
     }
 
-    public function getUsers(): ?Users
+    public function getUser(): ?Users
     {
-        return $this->users;
+        return $this->user;
     }
 
-    public function setUsers(?Users $users): static
+    public function setUser(?Users $user): static
     {
-        $this->users = $users;
+        $this->user = $user;
 
         return $this;
     }

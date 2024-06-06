@@ -7,10 +7,11 @@
 {% block body %}
 	<section>
 		<h1>Modifier vos informations</h1>
-		<a href="{{path('users.{id}', {id:user.id})}}">Retour à l'index</a>
+
 		{{form_start(form)}}
 		{{form_widget(form)}}
 		<button>Enregistrer les modifications</button>
 		{{form_end(form)}}
+		<a href="{{path('app.users.details', {id:users.id})}}">Retour</a>
 	</section>
 {% endblock %}

@@ -11,9 +11,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
-#[Route('/users', '.users')]
-class UserController extends AbstractController
+#[Route('/users', 'app.users')]
+class UserController extends AbstractDashboardController
 {
     public function __construct(
         private UsersRepository $userRepo,
@@ -21,11 +22,11 @@ class UserController extends AbstractController
     ) {
     }
 
-    #[Route('/{id}', '.details', methods: ['GET', 'POST'])]
-    public function details(): Response
+    #[Route('/{id}/details', '.details', methods: ['GET', 'POST'])]
+    public function details(?Users $user): Response
     {
         return $this->render('Frontend/Users/details.html.twig', [
-            'users' => $this->userRepo->findOneByEmail(),
+            'users' => $user,
         ]);
     }
 
@@ -44,6 +45,6 @@ class UserController extends AbstractController
             return $this->redirectToRoute('users.edit');
         }
 
-        return $this->render('Frontend/Users/edit.html.twig', ['form' => $form]);
+        return $this->render('Frontend/Users/edit.html.twig', ['form' => $form, 'users' => $user]);
     }
 }

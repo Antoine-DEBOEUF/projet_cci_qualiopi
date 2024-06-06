@@ -50,15 +50,16 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     /**
-     * @var Collection<int, documents>
+     * @var Collection<int, Documents>
      */
-    #[ORM\OneToMany(targetEntity: documents::class, mappedBy: 'users')]
-    private Collection $id_documents;
+    #[ORM\OneToMany(targetEntity: Documents::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $documents;
 
     public function __construct()
     {
-        $this->id_documents = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -101,8 +102,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+
 
         return array_unique($roles);
     }
@@ -176,29 +176,29 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, documents>
+     * @return Collection<int, Documents>
      */
-    public function getIdDocuments(): Collection
+    public function getDocuments(): Collection
     {
-        return $this->id_documents;
+        return $this->documents;
     }
 
-    public function addIdDocument(documents $idDocument): static
+    public function addDocument(Documents $document): static
     {
-        if (!$this->id_documents->contains($idDocument)) {
-            $this->id_documents->add($idDocument);
-            $idDocument->setUsers($this);
+        if (!$this->documents->contains($document)) {
+            $this->documents->add($document);
+            $document->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeIdDocument(documents $idDocument): static
+    public function removeDocument(Documents $document): static
     {
-        if ($this->id_documents->removeElement($idDocument)) {
+        if ($this->documents->removeElement($document)) {
             // set the owning side to null (unless already changed)
-            if ($idDocument->getUsers() === $this) {
-                $idDocument->setUsers(null);
+            if ($document->getUser() === $this) {
+                $document->setUser(null);
             }
         }
 
